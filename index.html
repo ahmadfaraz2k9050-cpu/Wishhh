@@ -1,640 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>For Someone Special 🎁</title>
-<style>
-  :root{--bg1:#ffe3ec;--bg2:#fff6fb;--accent:#ff4d8d;--accent2:#ff9ac1;--card:#ffffff}
-  *{box-sizing:border-box}
-  body{
-    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg,var(--bg1),var(--bg2)); overflow:hidden;
-  }
-  .container{ text-align:center; padding:24px; }
-  h1{ margin:0 0 10px; color:#c2185b; font-size:2rem }
-  p.sub{ margin:0 0 22px; color:#7a1b4a }
-
-  /* Gift box */
-  .gift-wrap{ position:relative; width:160px; height:160px; margin:30px auto; cursor:pointer }
-  .box{ position:absolute; inset:40px 0 0 0; background:var(--accent); border-radius:12px; box-shadow:0 12px 24px rgba(0,0,0,.15) }
-  .lid{ position:absolute; top:0; left:0; right:0; height:60px; background:var(--accent2); border-radius:12px; transition:transform .6s ease }
-  .ribbon-v, .ribbon-h{ position:absolute; background:#fff }
-  .ribbon-v{ width:18px; left:calc(50% - 9px); top:0; bottom:0 }
-  .ribbon-h{ height:18px; left:0; right:0; top:70px }
-  .bow{ position:absolute; top:18px; left:50%; transform:translateX(-50%); width:70px; height:30px }
-  .bow:before,.bow:after{ content:""; position:absolute; width:34px; height:26px; background:#fff; border-radius:50px 50px 0 50px }
-  .bow:before{ left:0; transform:rotate(35deg) }
-  .bow:after{ right:0; transform:scaleX(-1) rotate(35deg) }
-  .open .lid{ transform:translateY(-90px) rotate(-8deg) }
-
-  /* Modal */
-  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding:20px }
-  .overlay.show{ display:flex }
-  .card{
-    width:min(520px,92vw); background:var(--card); border-radius:18px; padding:26px; text-align:center;
-    box-shadow:0 20px 40px rgba(0,0,0,.25); position:relative; animation:pop .35s ease
-  }
-  @keyframes pop{ from{ transform:scale(.9); opacity:.6 } to{ transform:scale(1); opacity:1 } }
-  .card h2{ margin:0 0 12px; color:#c2185b }
-  .card p{ margin:0 0 18px; line-height:1.6; color:#333 }
-  .nav{ display:flex; gap:10px; justify-content:center }
-  .btn{ border:0; border-radius:999px; padding:10px 16px; background:var(--accent); color:#fff; cursor:pointer }
-  .btn.alt{ background:#999 }
-  .close{ position:absolute; top:10px; right:12px; background:transparent; color:#555; font-size:22px; border:0; cursor:pointer }
-
-  /* Floating hearts */
-  .heart{ position:fixed; bottom:-20px; font-size:18px; animation:float 6s linear infinite; opacity:.8 }
-  @keyframes float{ to{ transform:translateY(-110vh) translateX(var(--drift)); opacity:0 } }
-</style>
-</head>
-<body>
-  <div class="container">
-    <h1>Happy Birthday <span id="name">VEERA</span> 💖</h1>
-    <p class="sub">I made a little surprise for you…tap the gift 🎁</p>
-
-    <div id="gift" class="gift-wrap" title="Tap to open">
-      <div class="lid"></div>
-      <div class="box"></div>
-      <div class="ribbon-v"></div>
-      <div class="ribbon-h"></div>
-      <div class="bow"></div>
-    </div>
-  </div>
-
-  <div id="overlay" class="overlay">
-    <div class="card">
-      <button class="close" id="close">×</button>
-      <h2 id="cardTitle">Card 1</h2>
-      <p id="cardText"></p>
-      <div class="nav">
-        <button class="btn alt" id="prev">Previous</button>
-        <button class="btn" id="next">Next</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-  // === EDIT THESE MESSAGES ===
-  const cards = [
-  {
-    title: 'My Biggest Strength 💙',
-    text:'You are not just my elder brother — you are my guide, my protector, and my biggest support. No matter what happens, I know I can always count on you. You truly mean the world to me.'
-  },
-
-  {
-    title: 'My Role Model 🌟',
-    text:'I’ve always looked up to you for your strength, wisdom, and kindness. You inspire me to become a better person every day. Having a brother like you is one of the greatest blessings in my life.'
-  },
-
-  {
-    title: 'A Prayer For You ✨',
-    text:'I pray that Allah blesses you with endless happiness, success, and good health. May your life always be filled with peace, love, and countless moments of joy.'
-  },
-
-  {
-    title: 'Memories Together 😄',
-    text:'From childhood memories to every little moment we’ve shared, you’ve made life more meaningful and fun. Thank you for always being there through every phase of my life.'
-  },
-
-  {
-    title: 'From My Heart ❤️',
-    text:'You are my whole world, my safe place, and one of the most important people in my life. Stay happy, stay strong, and always keep shining — because you deserve nothing but the best.'
-  }
-];
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>For My Elder Brother 💙</title>
-
-<style>
-:root{
-  --bg1:#ffe3ec;
-  --bg2:#fff6fb;
-  --accent:#ff4d8d;
-  --accent2:#ff9ac1;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  overflow:hidden;
-}
-
-.container{
-  text-align:center;
-  padding:20px;
-}
-
-h1{
-  color:#c2185b;
-  margin-bottom:10px;
-  animation:fadeIn 1s ease;
-}
-
-.sub{
-  color:#7a1b4a;
-  margin-bottom:25px;
-}
-
-/* Gift */
-.gift-wrap{
-  width:160px;
-  height:160px;
-  margin:auto;
-  position:relative;
-  cursor:pointer;
-  transform:scale(1);
-  transition:transform .4s ease;
-}
-
-.gift-wrap:hover{
-  transform:scale(1.05);
-}
-
-.box{
-  position:absolute;
-  inset:40px 0 0 0;
-  background:var(--accent);
-  border-radius:12px;
-  box-shadow:0 12px 25px rgba(0,0,0,.2);
-}
-
-.lid{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:60px;
-  background:var(--accent2);
-  border-radius:12px;
-  transition:transform .8s cubic-bezier(.68,-0.55,.27,1.55);
-}
-
-.open .lid{
-  transform:translateY(-100px) rotate(-10deg);
-}
-
-.ribbon-v,.ribbon-h{
-  position:absolute;
-  background:white;
-}
-
-.ribbon-v{
-  width:18px;
-  left:50%;
-  transform:translateX(-50%);
-  top:0;
-  bottom:0;
-}
-
-.ribbon-h{
-  height:18px;
-  top:70px;
-  left:0;
-  right:0;
-}
-
-.bow{
-  position:absolute;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:70px;
-  height:30px;
-}
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8" />  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+<title>For Someone Special 🎁</title>  
+<style>  
+  :root{--bg1:#ffe3ec;--bg2:#fff6fb;--accent:#ff4d8d;--accent2:#ff9ac1;--card:#ffffff}  
+  *{box-sizing:border-box}  
+  body{  
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;  
+    min-height:100vh; display:flex; align-items:center; justify-content:center;  
+    background:linear-gradient(135deg,var(--bg1),var(--bg2)); overflow:hidden;  
+  }  
+  .container{ text-align:center; padding:24px; }  
+  h1{ margin:0 0 10px; color:#c2185b; font-size:2rem }  
+  p.sub{ margin:0 0 22px; color:#7a1b4a }  /* Gift box */
+.gift-wrap{ position:relative; width:160px; height:160px; margin:30px auto; cursor:pointer }
+.box{ position:absolute; inset:40px 0 0 0; background:var(--accent); border-radius:12px; box-shadow:0 12px 24px rgba(0,0,0,.15) }
+.lid{ position:absolute; top:0; left:0; right:0; height:60px; background:var(--accent2); border-radius:12px; transition:transform .6s ease }
+.ribbon-v, .ribbon-h{ position:absolute; background:#fff }
+.ribbon-v{ width:18px; left:calc(50% - 9px); top:0; bottom:0 }
+.ribbon-h{ height:18px; left:0; right:0; top:70px }
+.bow{ position:absolute; top:18px; left:50%; transform:translateX(-50%); width:70px; height:30px }
+.bow:before,.bow:after{ content:""; position:absolute; width:34px; height:26px; background:#fff; border-radius:50px 50px 0 50px }
+.bow:before{ left:0; transform:rotate(35deg) }
+.bow:after{ right:0; transform:scaleX(-1) rotate(35deg) }
+.open .lid{ transform:translateY(-90px) rotate(-8deg) }
 
 /* Modal */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.overlay.show{display:flex}
-
+.overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding:20px }
+.overlay.show{ display:flex }
 .card{
-  background:white;
-  width:90%;
-  max-width:500px;
-  padding:25px;
-  border-radius:18px;
-  text-align:center;
-  animation:pop .5s ease;
+width:min(520px,92vw); background:var(--card); border-radius:18px; padding:26px; text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,.25); position:relative; animation:pop .35s ease
 }
+@keyframes pop{ from{ transform:scale(.9); opacity:.6 } to{ transform:scale(1); opacity:1 } }
+.card h2{ margin:0 0 12px; color:#c2185b }
+.card p{ margin:0 0 18px; line-height:1.6; color:#333 }
+.nav{ display:flex; gap:10px; justify-content:center }
+.btn{ border:0; border-radius:999px; padding:10px 16px; background:var(--accent); color:#fff; cursor:pointer }
+.btn.alt{ background:#999 }
+.close{ position:absolute; top:10px; right:12px; background:transparent; color:#555; font-size:22px; border:0; cursor:pointer }
 
-.card h2{
-  color:#c2185b;
-}
-
-.card p{
-  color:#333;
-  line-height:1.6;
-}
-
-.nav{
-  margin-top:15px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
-
-button{
-  border:none;
-  padding:10px 15px;
-  border-radius:999px;
-  cursor:pointer;
-}
-
-.btn{
-  background:var(--accent);
-  color:white;
-}
-
-.btn.alt{
-  background:#999;
-}
-
-.close{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:22px;
-  background:none;
-}
-
-/* Animations */
-@keyframes pop{
-  0%{transform:scale(.6);opacity:0}
-  70%{transform:scale(1.05)}
-  100%{transform:scale(1);opacity:1}
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(-10px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* Hearts */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  font-size:18px;
-  animation:float 6s linear forwards;
-  opacity:.8;
-}
-
-@keyframes float{
-  to{
-    transform:translateY(-110vh);
-    opacity:0;
-  }
-}
+/* Floating hearts */
+.heart{ position:fixed; bottom:-20px; font-size:18px; animation:float 6s linear infinite; opacity:.8 }
+@keyframes float{ to{ transform:translateY(-110vh) translateX(var(--drift)); opacity:0 } }
 </style>
-</head>
 
-<body>
-
-<div class="container">
-  <h1>Happy Birthday 💙 VEERA</h1>
-  <p class="sub">Tap the gift for your surprise 🎁</p>
-
-  <div class="gift-wrap" id="gift">
-    <div class="lid"></div>
-    <div class="box"></div>
-    <div class="ribbon-v"></div>
-    <div class="ribbon-h"></div>
-  </div>
+</head>  
+<body>  
+  <div class="container">  
+    <h1>Happy Birthday <span id="name">VEERA</span> 💖</h1>  
+    <p class="sub">I made a little surprise for you…tap the gift 🎁</p>  <div id="gift" class="gift-wrap" title="Tap to open">  
+  <div class="lid"></div>  
+  <div class="box"></div>  
+  <div class="ribbon-v"></div>  
+  <div class="ribbon-h"></div>  
+  <div class="bow"></div>  
 </div>
 
-<div class="overlay" id="overlay">
-  <div class="card">
-    <button class="close" id="close">×</button>
-    <h2 id="title"></h2>
-    <p id="text"></p>
-
-    <div class="nav">
-      <button class="btn alt" id="prev">Prev</button>
-      <button class="btn" id="next">Next</button>
-    </div>
-  </div>
-</div>
-
-<!-- CONFETTI LIBRARY -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-<script>
-const cards = [
-  {
-    title:"My Biggest Strength 💙",
-    text:"You are my guide, protector and strongest support. I always depend on you."
-  },
-  {
-    title:"My Role Model 🌟",
-    text:"You inspire me every day to become a better person. I’m proud of you."
-  },
-  {
-    title:"A Prayer ✨",
-    text:"May Allah give you happiness, success and endless blessings in life."
-  },
-  {
-    title:"Memories 😄",
-    text:"Every moment with you is special and unforgettable."
-  },
-  {
-    title:"From My Heart ❤️",
-    text:"You are my world. Stay happy and keep shining always."
-  }
-];
-
-let i = 0;
-
-const gift = document.getElementById("gift");
-const overlay = document.getElementById("overlay");
-const title = document.getElementById("title");
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>For My Elder Brother 💙</title>
-
-<style>
-:root{
-  --bg1:#ffe3ec;
-  --bg2:#fff6fb;
-  --accent:#ff4d8d;
-  --accent2:#ff9ac1;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,Arial;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  overflow:hidden;
-}
-
-.container{
-  text-align:center;
-}
-
-h1{
-  color:#c2185b;
-  margin-bottom:10px;
-}
-
-.sub{
-  color:#7a1b4a;
-  margin-bottom:20px;
-}
-
-/* Gift */
-.gift{
-  width:160px;
-  height:160px;
-  margin:auto;
-  position:relative;
-  cursor:pointer;
-}
-
-.box{
-  position:absolute;
-  inset:40px 0 0 0;
-  background:var(--accent);
-  border-radius:12px;
-}
-
-.lid{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:60px;
-  background:var(--accent2);
-  border-radius:12px;
-  transition:.7s ease;
-}
-
-.open .lid{
-  transform:translateY(-90px) rotate(-10deg);
-}
-
-/* Overlay */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.overlay.show{
-  display:flex;
-}
-
-.card{
-  background:#fff;
-  width:90%;
-  max-width:450px;
-  padding:20px;
-  border-radius:16px;
-  text-align:center;
-  animation:pop .4s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-.card img{
-  width:100%;
-  border-radius:12px;
-  margin-bottom:10px;
-}
-
-.card h2{
-  color:#c2185b;
-}
-
-.card p{
-  color:#333;
-  line-height:1.5;
-}
-
-.nav{
-  margin-top:10px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
-
-button{
-  border:none;
-  padding:10px 15px;
-  border-radius:999px;
-  cursor:pointer;
-}
-
-.btn{
-  background:var(--accent);
-  color:#fff;
-}
-
-.btn.alt{
-  background:#999;
-}
-
-/* Hearts */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  font-size:18px;
-  animation:float 6s linear forwards;
-}
-
-@keyframes float{
-  to{
-    transform:translateY(-110vh);
-    opacity:0;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-  <h1>Happy Birthday 💙 Veera</h1>
-  <p class="sub">Tap the gift 🎁</p>
-
-  <div class="gift" id="gift">
-    <div class="lid"></div>
-    <div class="box"></div>
-  </div>
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="card">
-    <h2 id="title"></h2>
-    <img id="img" style="display:none"/>
-    <p id="text"></p>
-
-    <div class="nav">
-      <button class="btn alt" id="prev">Prev</button>
-      <button class="btn" id="next">Next</button>
-    </div>
-  </div>
-</div>
-
-<!-- Confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-<script>
-const cards = [
-  {
-    title:"My Biggest Strength 💙",
-    text:"You are my guide and support.",
-    img:""
-  },
-  {
-    title:"My Role Model 🌟",
-    text:"You inspire me every day.",
-    img:""
-  },
-  {
-    title:"A Prayer ✨",
-    text:"May Allah bless you always.",
-    img:""
-  },
-  {
-    title:"Memories 😄",
-    text:"Every moment with you is special.",
-    img:""
-  },
-  {
-    title:"From My Heart ❤️",
-    text:"You are my world.",
-    img:""
-  }
-];
-
-let i = 0;
-
-const gift = document.getElementById("gift");
-const overlay = document.getElementById("overlay");
-const title = document.getElementById("title");
-const text = document.getElementById("text");
-const img = document.getElementById("img");
-
-function show(){
-  title.textContent = cards[i].title;
-  text.textContent = cards[i].text;
-
-  if(cards[i].img){
-    img.src = cards[i].img;
-    img.style.display = "block";
-  } else {
-    img.style.display = "none";
-  }
-}
-
-gift.onclick = () => {
-  gift.classList.add("open");
-  overlay.classList.add("show");
-  i = 0;
-  show();
-
-  confetti({ particleCount: 120, spread: 80, origin:{y:0.6} });
-
-  for(let k=0;k<15;k++){
-    setTimeout(()=>{
-      let h=document.createElement("div");
-      h.className="heart";
-      h.textContent="💖";
-      h.style.left=Math.random()*100+"vw";
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(),6000);
-    },k*200);
-  }
-};
-
-document.getElementById("next").onclick = () => {
-  if(i < cards.length-1){
-    i++;
-    show();
-  } else {
-    overlay.classList.remove("show");
-  }
-};
-
-document.getElementById("prev").onclick = () => {
-  if(i > 0){
-    i--;
-    show();
-  }
-};
-</script>
-
-</body>
-</html>
+  </div>    <div id="overlay" class="overlay">  
+    <div class="card">  
+      <button class="close" id="close">×</button>  
+      <h2 id="cardTitle">Card 1</h2>  
+      <p id="cardText"></p>  
+      <div class="nav">  
+        <button class="btn alt" id="prev">Previous</button>  
+        <button class="btn" id="next">Next</button>  
+      </div>  
+    </div>  
+  </div>  <script>  
+  // === EDIT THESE MESSAGES ===  
+  const cards = [  
+  {  
+    title: 'My Biggest Strength 💙',  
+    text:'You are not just my elder brother — you are my guide, my protector, and my biggest support. No matter what happens, I know I can always count on you. You truly mean the world to me.'  
+  },  
+  
+  {  
+    title: 'My Role Model 🌟',  
+    text:'I’ve always looked up to you for your strength, wisdom, and kindness. You inspire me to become a better person every day. Having a brother like you is one of the greatest blessings in my life.'  
+  },  
+  
+  {  
+    title: 'A Prayer For You ✨',  
+    text:'I pray that Allah blesses you with endless happiness, success, and good health. May your life always be filled with peace, love, and countless moments of joy.'  
+  },  
+  
+  {  
+    title: 'Memories Together 😄',  
+    text:'From childhood memories to every little moment we’ve shared, you’ve made life more meaningful and fun. Thank you for always being there through every phase of my life.'  
+  },  
+  
+  {  
+    title: 'From My Heart ❤️',  
+    text:'You are my whole world, my safe place, and one of the most important people in my life. Stay happy, stay strong, and always keep shining — because you deserve nothing but the best.'  
+  }  
+];  
+  const gift = document.getElementById('gift');  
+  const overlay = document.getElementById('overlay');  
+  const titleEl = document.getElementById('cardTitle');  
+  const textEl = document.getElementById('cardText');  
+  const next = document.getElementById('next');  
+  const prev = document.getElementById('prev');  
+  const close = document.getElementById('close');  
+  let i = 0;  
+  
+  function showCard(idx){  
+    const c = cards[idx];  
+    titleEl.textContent = c.title;  
+    textEl.textContent = c.text;  
+    prev.disabled = idx===0;  
+    next.textContent = idx===cards.length-1 ? 'Finish' : 'Next';  
+  }  
+  
+  gift.addEventListener('click',()=>{  
+    gift.classList.add('open');  
+    overlay.classList.add('show');  
+    i=0; showCard(i);  
+    startHearts();  
+  });  
+  close.addEventListener('click',()=> overlay.classList.remove('show'));  
+  next.addEventListener('click',()=>{  
+    if(i<cards.length-1){ i++; showCard(i); }  
+    else overlay.classList.remove('show');  
+  });  
+  prev.addEventListener('click',()=>{ if(i>0){ i--; showCard(i);} });  
+  
+  // floating hearts  
+  function startHearts(){  
+    for(let k=0;k<24;k++) setTimeout(spawn, k*250);  
+  }  
+  function spawn(){  
+    const h=document.createElement('div');  
+    h.className='heart';  
+    h.textContent='💗';  
+    const left=Math.random()*100;  
+    const drift=(Math.random()*120-60)+'px';  
+    h.style.left=left+'vw';  
+    h.style.setProperty('--drift',drift);  
+    h.style.animationDuration=(5+Math.random()*3)+'s';  
+    document.body.appendChild(h);  
+    setTimeout(()=>h.remove(),8000);  
+  }  
+</script>  </body>  </html>
