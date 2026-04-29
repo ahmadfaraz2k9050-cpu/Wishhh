@@ -103,53 +103,322 @@
     text:'You are my whole world, my safe place, and one of the most important people in my life. Stay happy, stay strong, and always keep shining — because you deserve nothing but the best.'
   }
 ];
-  const gift = document.getElementById('gift');
-  const overlay = document.getElementById('overlay');
-  const titleEl = document.getElementById('cardTitle');
-  const textEl = document.getElementById('cardText');
-  const next = document.getElementById('next');
-  const prev = document.getElementById('prev');
-  const close = document.getElementById('close');
-  let i = 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For My Elder Brother 💙</title>
 
-  function showCard(idx){
-    const c = cards[idx];
-    titleEl.textContent = c.title;
-    textEl.textContent = c.text;
-    prev.disabled = idx===0;
-    next.textContent = idx===cards.length-1 ? 'Finish' : 'Next';
-  }
+<style>
+:root{
+  --bg1:#ffe3ec;
+  --bg2:#fff6fb;
+  --accent:#ff4d8d;
+  --accent2:#ff9ac1;
+}
 
-  gift.addEventListener('click',()=>{
-    gift.classList.add('open');
-    overlay.classList.add('show');
-    i=0; showCard(i);
-    startHearts();
-  });
-  close.addEventListener('click',()=> overlay.classList.remove('show'));
-  next.addEventListener('click',()=>{
-    if(i<cards.length-1){ i++; showCard(i); }
-    else overlay.classList.remove('show');
-  });
-  prev.addEventListener('click',()=>{ if(i>0){ i--; showCard(i);} });
+*{box-sizing:border-box}
 
-  // floating hearts
-  function startHearts(){
-    for(let k=0;k<24;k++) setTimeout(spawn, k*250);
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+}
+
+.container{
+  text-align:center;
+  padding:20px;
+}
+
+h1{
+  color:#c2185b;
+  margin-bottom:10px;
+  animation:fadeIn 1s ease;
+}
+
+.sub{
+  color:#7a1b4a;
+  margin-bottom:25px;
+}
+
+/* Gift */
+.gift-wrap{
+  width:160px;
+  height:160px;
+  margin:auto;
+  position:relative;
+  cursor:pointer;
+  transform:scale(1);
+  transition:transform .4s ease;
+}
+
+.gift-wrap:hover{
+  transform:scale(1.05);
+}
+
+.box{
+  position:absolute;
+  inset:40px 0 0 0;
+  background:var(--accent);
+  border-radius:12px;
+  box-shadow:0 12px 25px rgba(0,0,0,.2);
+}
+
+.lid{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:60px;
+  background:var(--accent2);
+  border-radius:12px;
+  transition:transform .8s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.open .lid{
+  transform:translateY(-100px) rotate(-10deg);
+}
+
+.ribbon-v,.ribbon-h{
+  position:absolute;
+  background:white;
+}
+
+.ribbon-v{
+  width:18px;
+  left:50%;
+  transform:translateX(-50%);
+  top:0;
+  bottom:0;
+}
+
+.ribbon-h{
+  height:18px;
+  top:70px;
+  left:0;
+  right:0;
+}
+
+.bow{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:70px;
+  height:30px;
+}
+
+/* Modal */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.overlay.show{display:flex}
+
+.card{
+  background:white;
+  width:90%;
+  max-width:500px;
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+  animation:pop .5s ease;
+}
+
+.card h2{
+  color:#c2185b;
+}
+
+.card p{
+  color:#333;
+  line-height:1.6;
+}
+
+.nav{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+button{
+  border:none;
+  padding:10px 15px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.btn{
+  background:var(--accent);
+  color:white;
+}
+
+.btn.alt{
+  background:#999;
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:22px;
+  background:none;
+}
+
+/* Animations */
+@keyframes pop{
+  0%{transform:scale(.6);opacity:0}
+  70%{transform:scale(1.05)}
+  100%{transform:scale(1);opacity:1}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(-10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 6s linear forwards;
+  opacity:.8;
+}
+
+@keyframes float{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
   }
-  function spawn(){
-    const h=document.createElement('div');
-    h.className='heart';
-    h.textContent='💗';
-    const left=Math.random()*100;
-    const drift=(Math.random()*120-60)+'px';
-    h.style.left=left+'vw';
-    h.style.setProperty('--drift',drift);
-    h.style.animationDuration=(5+Math.random()*3)+'s';
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),8000);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Happy Birthday 💙 VEERA</h1>
+  <p class="sub">Tap the gift for your surprise 🎁</p>
+
+  <div class="gift-wrap" id="gift">
+    <div class="lid"></div>
+    <div class="box"></div>
+    <div class="ribbon-v"></div>
+    <div class="ribbon-h"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="card">
+    <button class="close" id="close">×</button>
+    <h2 id="title"></h2>
+    <p id="text"></p>
+
+    <div class="nav">
+      <button class="btn alt" id="prev">Prev</button>
+      <button class="btn" id="next">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFETTI LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const cards = [
+  {
+    title:"My Biggest Strength 💙",
+    text:"You are my guide, protector and strongest support. I always depend on you."
+  },
+  {
+    title:"My Role Model 🌟",
+    text:"You inspire me every day to become a better person. I’m proud of you."
+  },
+  {
+    title:"A Prayer ✨",
+    text:"May Allah give you happiness, success and endless blessings in life."
+  },
+  {
+    title:"Memories 😄",
+    text:"Every moment with you is special and unforgettable."
+  },
+  {
+    title:"From My Heart ❤️",
+    text:"You are my world. Stay happy and keep shining always."
   }
+];
+
+let i = 0;
+
+const gift = document.getElementById("gift");
+const overlay = document.getElementById("overlay");
+const title = document.getElementById("title");
+const text = document.getElementById("text");
+
+const next = document.getElementById("next");
+const prev = document.getElementById("prev");
+const close = document.getElementById("close");
+
+function show(){
+  title.textContent = cards[i].title;
+  text.textContent = cards[i].text;
+}
+
+gift.onclick = () => {
+  gift.classList.add("open");
+  overlay.classList.add("show");
+  i = 0;
+  show();
+  hearts();
+
+  // CONFETTI 🎊
+  confetti({ particleCount: 120, spread: 80, origin:{y:0.6} });
+};
+
+next.onclick = () => {
+  if(i < cards.length - 1){
+    i++;
+    show();
+  } else {
+    overlay.classList.remove("show");
+  }
+};
+
+prev.onclick = () => {
+  if(i > 0){
+    i--;
+    show();
+  }
+};
+
+close.onclick = () => overlay.classList.remove("show");
+
+// Hearts
+function hearts(){
+  for(let k=0;k<20;k++){
+    setTimeout(()=>{
+      let h = document.createElement("div");
+      h.className="heart";
+      h.textContent="💖";
+      h.style.left = Math.random()*100 + "vw";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),6000);
+    },k*200);
+  }
+}
 </script>
-</body>
 
+</body>
 </html>
