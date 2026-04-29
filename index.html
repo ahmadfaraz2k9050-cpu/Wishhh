@@ -365,15 +365,238 @@ let i = 0;
 const gift = document.getElementById("gift");
 const overlay = document.getElementById("overlay");
 const title = document.getElementById("title");
-const text = document.getElementById("text");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For My Elder Brother 💙</title>
 
-const next = document.getElementById("next");
-const prev = document.getElementById("prev");
-const close = document.getElementById("close");
+<style>
+:root{
+  --bg1:#ffe3ec;
+  --bg2:#fff6fb;
+  --accent:#ff4d8d;
+  --accent2:#ff9ac1;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui,Arial;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+}
+
+.container{
+  text-align:center;
+}
+
+h1{
+  color:#c2185b;
+  margin-bottom:10px;
+}
+
+.sub{
+  color:#7a1b4a;
+  margin-bottom:20px;
+}
+
+/* Gift */
+.gift{
+  width:160px;
+  height:160px;
+  margin:auto;
+  position:relative;
+  cursor:pointer;
+}
+
+.box{
+  position:absolute;
+  inset:40px 0 0 0;
+  background:var(--accent);
+  border-radius:12px;
+}
+
+.lid{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:60px;
+  background:var(--accent2);
+  border-radius:12px;
+  transition:.7s ease;
+}
+
+.open .lid{
+  transform:translateY(-90px) rotate(-10deg);
+}
+
+/* Overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.card{
+  background:#fff;
+  width:90%;
+  max-width:450px;
+  padding:20px;
+  border-radius:16px;
+  text-align:center;
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.card img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+
+.card h2{
+  color:#c2185b;
+}
+
+.card p{
+  color:#333;
+  line-height:1.5;
+}
+
+.nav{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+button{
+  border:none;
+  padding:10px 15px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.btn{
+  background:var(--accent);
+  color:#fff;
+}
+
+.btn.alt{
+  background:#999;
+}
+
+/* Hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 6s linear forwards;
+}
+
+@keyframes float{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Happy Birthday 💙 Veera</h1>
+  <p class="sub">Tap the gift 🎁</p>
+
+  <div class="gift" id="gift">
+    <div class="lid"></div>
+    <div class="box"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="card">
+    <h2 id="title"></h2>
+    <img id="img" style="display:none"/>
+    <p id="text"></p>
+
+    <div class="nav">
+      <button class="btn alt" id="prev">Prev</button>
+      <button class="btn" id="next">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const cards = [
+  {
+    title:"My Biggest Strength 💙",
+    text:"You are my guide and support.",
+    img:""
+  },
+  {
+    title:"My Role Model 🌟",
+    text:"You inspire me every day.",
+    img:""
+  },
+  {
+    title:"A Prayer ✨",
+    text:"May Allah bless you always.",
+    img:""
+  },
+  {
+    title:"Memories 😄",
+    text:"Every moment with you is special.",
+    img:""
+  },
+  {
+    title:"From My Heart ❤️",
+    text:"You are my world.",
+    img:""
+  }
+];
+
+let i = 0;
+
+const gift = document.getElementById("gift");
+const overlay = document.getElementById("overlay");
+const title = document.getElementById("title");
+const text = document.getElementById("text");
+const img = document.getElementById("img");
 
 function show(){
   title.textContent = cards[i].title;
   text.textContent = cards[i].text;
+
+  if(cards[i].img){
+    img.src = cards[i].img;
+    img.style.display = "block";
+  } else {
+    img.style.display = "none";
+  }
 }
 
 gift.onclick = () => {
@@ -381,14 +604,23 @@ gift.onclick = () => {
   overlay.classList.add("show");
   i = 0;
   show();
-  hearts();
 
-  // CONFETTI 🎊
   confetti({ particleCount: 120, spread: 80, origin:{y:0.6} });
+
+  for(let k=0;k<15;k++){
+    setTimeout(()=>{
+      let h=document.createElement("div");
+      h.className="heart";
+      h.textContent="💖";
+      h.style.left=Math.random()*100+"vw";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),6000);
+    },k*200);
+  }
 };
 
-next.onclick = () => {
-  if(i < cards.length - 1){
+document.getElementById("next").onclick = () => {
+  if(i < cards.length-1){
     i++;
     show();
   } else {
@@ -396,28 +628,12 @@ next.onclick = () => {
   }
 };
 
-prev.onclick = () => {
+document.getElementById("prev").onclick = () => {
   if(i > 0){
     i--;
     show();
   }
 };
-
-close.onclick = () => overlay.classList.remove("show");
-
-// Hearts
-function hearts(){
-  for(let k=0;k<20;k++){
-    setTimeout(()=>{
-      let h = document.createElement("div");
-      h.className="heart";
-      h.textContent="💖";
-      h.style.left = Math.random()*100 + "vw";
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(),6000);
-    },k*200);
-  }
-}
 </script>
 
 </body>
